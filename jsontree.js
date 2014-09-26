@@ -1,7 +1,7 @@
 !function ($) {
   "use strict"; // jshint ;_;
 
-  var _render = function(obj, p, options){
+  var _render = function(obj, p, options, depth){
     var parent = $(p);
     var ic = 0;
     var count = 0 ;
@@ -12,40 +12,45 @@
       count+=1;
     }
 
+    depth = (typeof flag === 'undefined' || !!depth) ? [] : depth
+
     for (var key in obj) {
       if (!obj.hasOwnProperty(key)){
         continue;
       }
       ic +=1;
-      var coma = '';
+      depth.push(key);
+      var coma = '',
+          path = depth.join(".");
       if (ic < count){
         coma = ',';
       }
       if (obj[key] === null){
-        parent.append('<li><span class="key">'+key+':</span><span class="null"> null </span>'+coma+'</li>');
+        parent.append('<li><span class="key">'+key+':</span><span path="' + path + '" class="value null"> null </span>'+coma+'</li>');
       } else if (typeof obj[key] === 'boolean'){
-        parent.append('<li><span class="key">'+key+':</span><span class="boolean">'+obj[key]+'</span>'+coma+'</li>');
+        parent.append('<li><span class="key">'+key+':</span><span path="' + path + '" class="value boolean">'+obj[key]+'</span>'+coma+'</li>');
       } else if (typeof obj[key] === 'number'){
-        parent.append('<li><span class="key">'+key+':</span><span class="number">'+obj[key]+'</span>'+coma+'</li>');
+        parent.append('<li><span class="key">'+key+':</span><span path="' + path + '" class="value number">'+obj[key]+'</span>'+coma+'</li>');
       } else if (typeof obj[key] === 'string'){
-        parent.append('<li><span class="key">'+key+':</span><span class="string">"'+obj[key]+'"</span>'+coma+'</li>');
+        parent.append('<li><span class="key">'+key+':</span><span path="' + path + '" class="value string">"'+obj[key]+'"</span>'+coma+'</li>');
       } else if ($.isArray(obj[key])) {
         if (key != 0 && options.fold_nodes) {
-          var arval = $('<li><span class="key">'+key+':</span><span class="fold folded">[</span><ul class="array" style="display: none;"></ul><span>]</span>'+coma+'</li>');
+          var arval = $('<li><span class="key">'+key+':</span><span class="fold folded">[</span><ul path="' + path + '" class="value array" style="display: none;"></ul><span>]</span>'+coma+'</li>');
         } else {
-          var arval = $('<li><span class="key">'+key+':</span><span class="fold">[</span><ul class="array"></ul><span>]</span>'+coma+'</li>');
+          var arval = $('<li><span class="key">'+key+':</span><span class="fold">[</span><ul path="' + path + '" class="value array"></ul><span>]</span>'+coma+'</li>');
         }
         parent.append(arval);
-        arval.find('.unfold').data('card', _render(obj[key], arval.find('.array'), options)) ;
+        arval.find('.unfold').data('card', _render(obj[key], arval.find('.array'), options, depth)) ;
       }else{
         if (key != 0 && options.fold_nodes) {
-          var oval = $('<li><span class="key">'+key+':</span><span class="fold folded">{</span><ul class="object" style="display: none;"></ul><span>}</span>'+coma+'</li>');
+          var oval = $('<li><span class="key">'+key+':</span><span class="fold folded">{</span><ul path="' + path + '" class="value object" style="display: none;"></ul><span>}</span>'+coma+'</li>');
         } else {
-          var oval = $('<li><span class="key">'+key+':</span><span class="fold">{</span><ul class="object"></ul><span>}</span>'+coma+'</li>');
+          var oval = $('<li><span class="key">'+key+':</span><span class="fold">{</span><ul path="' + path + '" class="value object"></ul><span>}</span>'+coma+'</li>');
         }
         parent.append(oval);
-        oval.find('.unfold').data('card', _render(obj[key], oval.find('.object'), options));
+        oval.find('.unfold').data('card', _render(obj[key], oval.find('.object'), options, depth));
       }
+      depth.pop();
     }
     return ic;
   };
