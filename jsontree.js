@@ -28,11 +28,11 @@
       if (obj[key] === null){
         parent.append('<li><span class="key">'+key+':</span><span path="' + path + '" class="value null"> null </span>'+coma+'</li>');
       } else if (typeof obj[key] === 'boolean'){
-        parent.append('<li><span class="key">'+key+':</span><span path="' + path + '" class="value boolean">'+obj[key]+'</span>'+coma+'</li>');
+        parent.append('<li><span class="key">'+key+':</span><span path="' + path + '" class="value boolean">'+$("<div>").text(obj[key]).html()+'</span>'+coma+'</li>');
       } else if (typeof obj[key] === 'number'){
-        parent.append('<li><span class="key">'+key+':</span><span path="' + path + '" class="value number">'+obj[key]+'</span>'+coma+'</li>');
+        parent.append('<li><span class="key">'+key+':</span><span path="' + path + '" class="value number">'+$("<div>").text(obj[key]).html()+'</span>'+coma+'</li>');
       } else if (typeof obj[key] === 'string'){
-        parent.append('<li><span class="key">'+key+':</span><span path="' + path + '" class="value string">"'+obj[key]+'"</span>'+coma+'</li>');
+        parent.append('<li><span class="key">'+key+':</span><span path="' + path + '" class="value string">"'+$("<div>").text(obj[key]).html()+'"</span>'+coma+'</li>');
       } else if ($.isArray(obj[key])) {
         if (key != 0 && options.fold_nodes) {
           var arval = $('<li><span class="key">'+key+':</span><span class="fold folded">[</span><ul path="' + path + '" class="value array" style="display: none;"></ul><span>]</span>'+coma+'</li>');

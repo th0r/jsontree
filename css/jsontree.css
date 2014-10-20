@@ -6,6 +6,7 @@
 .jsontree,
 .jsontree ul{
     list-style: none outside none;
+    overflow: hidden;
 }
 .jsontree {
     padding-left: 0;
