@@ -57,12 +57,12 @@
 
   $(document).on("click", '.jsontree .fold', function(e){
     e.preventDefault();
-    $(this).addClass('folded').parent().find('ul').slideUp();
+    $(this).addClass('folded').parent().find('ul').eq(0).slideUp();
   });
 
   $(document).on('click', '.jsontree .fold.folded', function(e){
     e.preventDefault();
-    $(this).removeClass('folded').parent().find('ul').slideDown();
+    $(this).removeClass('folded').parent().find('ul').eq(0).slideDown();
   });
 
   var JsonTree = function(self, options){
