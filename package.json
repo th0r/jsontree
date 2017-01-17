@@ -1,0 +1,10 @@
+{
+  "name": "jsontree",
+  "version": "1.0.0",
+  "description": "jQuery plugin for JSON visualization",
+  "main": "jsontree.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/th0r/jsontree.git"
+  }
+}
